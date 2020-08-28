@@ -29,7 +29,7 @@ function App() {
   }
 
   async function createNote() {
-    if (!formData.name || !formData.description) return;
+    if (!formData.name || !formData.description || !formData.tag) return;
     await API.graphql({ query: createNoteMutation, variables: { input: formData } });
     if (formData.image) {
       const image = await Storage.get(formData.image);
@@ -67,6 +67,11 @@ function App() {
         value={formData.description}
       />
       <input
+        onChange={e => setFormData({ ...formData, 'tag': e.target.value})}
+        placeholder="Note Tag"
+        value={formData.tag}
+      />
+      <input
         type="file"
         onChange={onChange}
       />
@@ -77,6 +82,7 @@ function App() {
           <div key={note.id || note.name}>
             <h2>{note.name}</h2>
             <p>{note.description}</p>
+            <p>{note.tag}</p>
             <button onClick={() => deleteNote(note)}>Delete note</button>
             {
               note.image && <img src={note.image} style={{width: 400}} alt="Note"/>
