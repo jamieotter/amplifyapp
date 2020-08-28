@@ -5,7 +5,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 
-const initialFormState = { name: '', description: '' }
+const initialFormState = { name: '', description: '', tag: '' }
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -37,6 +37,7 @@ function App() {
     }
     setNotes([ ...notes, formData ]);
     setFormData(initialFormState);
+    document.getElementById("image-file-input").value = "";   //has to be a btter way?
   }
 
   async function deleteNote({ id }) {
@@ -74,6 +75,7 @@ function App() {
       <input
         type="file"
         onChange={onChange}
+        id="image-file-input"
       />
       <button onClick={createNote}>Create Note</button>
       <div style={{marginBottom: 30}}>
